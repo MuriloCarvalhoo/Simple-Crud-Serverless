@@ -1,0 +1,45 @@
+org: murilocarvalho
+app: aws-node-http-api-project
+service: aws-node-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev # setting the env stage to dev, this will be visible in the routes
+  region: us-east-1
+
+functions:
+  createUSer:
+    handler: controller/user_controller.createUser
+    events:
+      - http:
+          path: users
+          method: post
+  getUser:
+    handler: controller/user_controller.getUser
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+  updateUser:
+    handler: controller/user_controller.updateUser
+    events:
+      - http:
+          path: users/{id}
+          method: put
+  deleteUser:
+    handler: controller/user_controller.deleteUser
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+  login:
+    handler: controller/auth_controller.login
+    events:
+      - http:
+          path: login
+          method: post
+plugins:
+- serverless-offline # adding the plugin to be able to run the offline emulation
